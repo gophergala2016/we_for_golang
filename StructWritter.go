@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"unicode"
 )
 
 type FileIO struct {
@@ -39,17 +40,26 @@ func (f *FileIO) WriteHeaders() {
 
 func (f *FileIO) WriteStruct(tableDesc TableDesc) {
 	f.fileHandler.WriteString("\n")
-	l1 := fmt.Sprintf("type %s struct { \n", tableDesc.name)
+	l1 := fmt.Sprintf("type %s struct { \n", UpcaseInitial(tableDesc.name))
 
 	f.fileHandler.WriteString(l1)
 	for _, v := range tableDesc.Fields {
-
-		matched_Type := getGoTypes(v[1])
-		fieldStr := fmt.Sprintf("%s %s \n", v[0], matched_Type)
+		_field := UpcaseInitial(v[0])
+		_type := getGoTypes(v[1])
+		fieldStr := fmt.Sprintf("%s %s \n", _field, _type)
 		f.fileHandler.WriteString(fieldStr)
 	}
 	f.fileHandler.WriteString("}")
 	f.fileHandler.WriteString("\n")
+}
+
+func UpcaseInitial(str string) string {
+	if str == "" {
+		return ""
+	}
+	strInRune := []rune(str)
+	strInRune[0] = unicode.ToUpper(strInRune[0])
+	return string(strInRune)
 }
 
 func getGoTypes(t string) string {
@@ -67,8 +77,7 @@ func getGoTypes(t string) string {
 	} else if strings.Contains(t, "text") {
 		return "string"
 	}
-	
-	
+
 	return t
 }
 
