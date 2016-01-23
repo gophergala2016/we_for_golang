@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type ConfigParams struct {
@@ -25,8 +26,12 @@ func main() {
 	flag.StringVar(&configparams.password, "p", "", "Password")
 	flag.StringVar(&configparams.database, "d", "", "Name of Database")
 	flag.StringVar(&configparams.fileforStruct, "f", "./Test.go", "Specify file for Golang Struct")
-
 	flag.Parse()
+	
+	ext := filepath.Ext(configparams.fileforStruct)
+	if ext == "" || ext != ".go" {
+		configparams.fileforStruct = configparams.fileforStruct +  ".go"
+	}
 
 	if (configparams.user == "") || (configparams.database == "") || (configparams.password == "") {
 		log.Println(configparams)
