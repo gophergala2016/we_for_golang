@@ -34,7 +34,7 @@ func NewFileIO(config ConfigParams) error {
 }
 func (f *FileIO) WriteHeaders() {
 	f.fileHandler.WriteString("package main \n")
-	f.fileHandler.WriteString(`import("fmt")`)
+	f.fileHandler.WriteString(`import("time")`)
 	f.fileHandler.WriteString("\n")
 }
 
@@ -70,7 +70,7 @@ func getGoTypes(t string) string {
 		return "int"
 	} else if strings.Contains(t, "varchar") {
 		return "string"
-	} else if strings.Contains(t, "datetime") {
+	} else if strings.Contains(t, "date") {
 		return "time.Time"
 	} else if strings.Contains(t, "decimal") {
 		return "float64"
