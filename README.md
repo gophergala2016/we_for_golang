@@ -10,7 +10,12 @@ when we have a data first, this will pull out its schema in golang Struct
 ## Few Examples
 	Gorm
 
-On executing the application a http server will be launched at port :8000
+## How to Use
+This is a terminal based utility which accept mysql username, password, database 
+& file name to generate a Struct.
+
+	./we_for_golang -u <USERNAME> -p <PASSWORD> -d <DATABASE> -f ~/workspace/my_project_schema.go
+
 
 ## Environment set up
 
