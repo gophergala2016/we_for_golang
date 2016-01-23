@@ -64,7 +64,11 @@ func getGoTypes(t string) string {
 		return "time.Time"
 	} else if strings.Contains(t, "decimal") {
 		return "float64"
+	} else if strings.Contains(t, "text") {
+		return "string"
 	}
+	
+	
 	return t
 }
 
