@@ -31,9 +31,13 @@ func main() {
 		os.Exit(0)
 	}
 	initializeDB(configparams)
-	Maindb.Open()
-	defer Maindb.Close()
+	err := db.Open()
+	if err != nil {
+		log.Println("-------------------------------")
+		log.Fatalln(err.Error())
+	}
+	defer db.Close()
 
-	Maindb.ShowTables()
+	//	db.ShowTables()
 
 }

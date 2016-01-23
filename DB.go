@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-var Maindb *MySqlDbClient
+var db *MySqlDbClient
 
 type MySqlDbClient struct {
 	config *ConfigParams
@@ -16,7 +16,7 @@ type MySqlDbClient struct {
 
 func initializeDB(configparams ConfigParams) {
 	log.Printf("--> %v \n", configparams)
-	Maindb = NewMySqlDbClient(&configparams)
+	db = NewMySqlDbClient(&configparams)
 }
 
 func NewMySqlDbClient(config *ConfigParams) *MySqlDbClient {
@@ -26,8 +26,10 @@ func NewMySqlDbClient(config *ConfigParams) *MySqlDbClient {
 func (db *MySqlDbClient) Open() error {
 	var err error
 	connectionString := fmt.Sprintf("%s:%s@/%s", db.config.user, db.config.password, db.config.database)
-	db.sqlDb, err = sql.Open("mysql", connectionString)
-	if err != nil {
+	if db.sqlDb, err = sql.Open("mysql", connectionString); err != nil {
+		return err
+	}
+	if err = db.sqlDb.Ping(); err != nil {
 		return err
 	}
 	return nil
