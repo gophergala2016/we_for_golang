@@ -31,6 +31,8 @@ func main() {
 		os.Exit(0)
 	}
 	initializeDB(configparams)
+	NewFileIO()
+
 	err := db.Open()
 	if err != nil {
 		log.Println("-------------------------------")
@@ -39,5 +41,7 @@ func main() {
 	defer db.Close()
 
 	//	db.ShowTables()
+	db.GenerateSchemaFile()
+	//initStructWritter()
 
 }
