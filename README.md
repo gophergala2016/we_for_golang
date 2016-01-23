@@ -1,4 +1,4 @@
-# 'Schema generator' for golang
+# 'Schema generator' for mysql
 This is an attempt to generate a bootstrap file which can be used as a base for 
 ORM.
 
