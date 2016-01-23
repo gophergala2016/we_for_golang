@@ -1,4 +1,4 @@
-# Golang
+# 'Schema generator' for golang
 This is an attempt to generate a bootstrap file which can be used as a base for 
 ORM.
 
