@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -14,18 +13,16 @@ type FileIO struct {
 }
 
 type TableDesc struct {
-	name string
-	//	Field map[string]string
+	name   string
 	Fields [][]string
 }
 
 var myfile FileIO
 
-func NewFileIO() error {
+func NewFileIO(config ConfigParams) error {
 	var err error
-	fileName := "./test.go"
-	myfile = FileIO{fullfile: fileName}
-	myfile.fileHandler, err = os.OpenFile(fileName,
+	myfile = FileIO{fullfile: config.fileforStruct}
+	myfile.fileHandler, err = os.OpenFile(config.fileforStruct,
 		os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
 
 	if err != nil {
@@ -71,26 +68,12 @@ func getGoTypes(t string) string {
 	return t
 }
 
-func (f *FileIO) FormatFile() {
+func (f *FileIO) FormatFile() error {
 	cmd := "go"
 	args := []string{"fmt", f.fullfile}
 
 	if err := exec.Command(cmd, args...).Run(); err != nil {
-		fmt.Println("ERRRRRRRRRRRRRRRRRRRRRRRR")
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }
-
-//func initStructWritter() {
-//	var err error
-//	//	fileName := "/home/synerzip/workspace/go/src/VimleshS/gophergala/we_for_golang/MySqlStructs.go"
-//	fileName := "./test.go"
-
-//	fileHandler, err = os.OpenFile(fileName,
-//		os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
-//	if err != nil {
-//		return
-//	}
-//	defer fileHandler.Close()
-//	fmt.Println("created..")
-//}
